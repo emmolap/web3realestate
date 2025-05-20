@@ -7,7 +7,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { motion } from "framer-motion";
 import {
   User,
   CalendarDays,
@@ -26,6 +29,21 @@ const profileSchema = z.object({
   phone: z.string().min(10, "Phone number is too short"),
 });
 
+const TabCard = ({ title, children }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.4 }}
+  >
+    <Card>
+      <CardContent className="space-y-4 p-6 dark:bg-gray-900 dark:text-white">
+        <h2 className="mb-4 text-xl font-semibold">{title}</h2>
+        {children}
+      </CardContent>
+    </Card>
+  </motion.div>
+);
+
 export default function UserDashboard() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const {
@@ -41,10 +59,15 @@ export default function UserDashboard() {
     },
   });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    toast.success("Profile updated successfully!");
+    console.log(data);
+  };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="mx-auto max-w-6xl px-4 py-10 dark:bg-black dark:text-white">
+      <Toaster position="top-right" />
+
       <div className="mb-6 flex flex-col justify-between sm:flex-row sm:items-center">
         <div className="flex items-center gap-4">
           <Avatar className="h-16 w-16">
@@ -105,118 +128,74 @@ export default function UserDashboard() {
         </TabsList>
 
         <TabsContent value="profile">
-          <Card>
-            <CardContent className="space-y-4 p-6">
-              <h2 className="mb-4 text-xl font-semibold">Your Profile</h2>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                  <Input placeholder="Name" {...register("name")} />
-                  {errors.name && (
-                    <p className="mt-1 text-sm text-red-500">
-                      {errors.name.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <Input
-                    placeholder="Email"
-                    type="email"
-                    {...register("email")}
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-500">
-                      {errors.email.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <Input
-                    placeholder="Phone"
-                    type="tel"
-                    {...register("phone")}
-                  />
-                  {errors.phone && (
-                    <p className="mt-1 text-sm text-red-500">
-                      {errors.phone.message}
-                    </p>
-                  )}
-                </div>
-                <Button type="submit">Update Profile</Button>
-              </form>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="saved">
-          <Card>
-            <CardContent className="p-6 text-gray-600">
-              You have no saved listings yet.
-            </CardContent>
-          </Card>
+          <TabCard title="Your Profile">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div>
+                <Input placeholder="Name" {...register("name")} />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Input
+                  placeholder="Email"
+                  type="email"
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Input placeholder="Phone" type="tel" {...register("phone")} />
+                {errors.phone && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.phone.message}
+                  </p>
+                )}
+              </div>
+              <Button type="submit">Update Profile</Button>
+            </form>
+          </TabCard>
         </TabsContent>
 
         <TabsContent value="visits">
-          <Card>
-            <CardContent className="p-6 text-gray-600">
-              You haven't scheduled any visits yet.
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="myListings">
-          <Card>
-            <CardContent className="p-6 text-gray-600">
-              You have no active listings.
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="messages">
-          <Card>
-            <CardContent className="p-6 text-gray-600">
-              Your inbox is empty.
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="notifications">
-          <Card>
-            <CardContent className="p-6 text-gray-600">
-              No new notifications.
-            </CardContent>
-          </Card>
+          <TabCard title="Your Scheduled Visits">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={setSelectedDate}
+              className="rounded-md border shadow"
+            />
+          </TabCard>
         </TabsContent>
 
         <TabsContent value="settings">
-          <Card>
-            <CardContent className="p-6 text-gray-600">
-              Settings are coming soon.
-            </CardContent>
-          </Card>
+          <TabCard title="Preferences & Settings">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline">Open Preferences</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <p className="text-sm">
+                  Dark mode, notification toggle, email updates, etc.
+                </p>
+              </DialogContent>
+            </Dialog>
+          </TabCard>
         </TabsContent>
 
-        <TabsContent value="chat">
-          <Card>
-            <CardContent className="p-6 text-gray-600">
-              Chat feature is under development.
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="auth">
-          <Card>
-            <CardContent className="p-6 text-gray-600">
-              Authentication settings will be here.
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="admin">
-          <Card>
-            <CardContent className="p-6 text-gray-600">
-              Admin panel access coming soon.
-            </CardContent>
-          </Card>
+        <TabsContent value="myListings">
+          <TabCard title="My Listings">
+            <p className="text-muted-foreground text-sm">
+              You currently have no active listings.
+            </p>
+            <Button className="mt-4">Add New Listing</Button>
+          </TabCard>
         </TabsContent>
       </Tabs>
     </div>
