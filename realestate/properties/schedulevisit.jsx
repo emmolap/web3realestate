@@ -29,7 +29,7 @@ export default function ScheduleVisitPage({ listingId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.phone || !form.date) {
-      alert("Please fill all required fields");
+      alert("Please, fill all required fields");
       return;
     }
     dispatch(scheduleVisit({ listingId, ...form }));
@@ -37,23 +37,43 @@ export default function ScheduleVisitPage({ listingId }) {
   };
 
   return (
-    <Card className="max-w-2xl mx-auto my-6">
+    <Card className="mx-auto my-6 max-w-2xl">
       <CardContent className="space-y-6 p-6">
         <h2 className="text-xl font-bold">Schedule a Property Visit</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="name">Full Name</Label>
-            <Input id="name" name="name" value={form.name} onChange={handleChange} required />
+            <Input
+              id="name"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              required
+            />
           </div>
 
           <div>
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" value={form.email} onChange={handleChange} required />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
           </div>
 
           <div>
             <Label htmlFor="phone">Phone Number</Label>
-            <Input id="phone" name="phone" type="tel" value={form.phone} onChange={handleChange} required />
+            <Input
+              id="phone"
+              name="phone"
+              type="tel"
+              value={form.phone}
+              onChange={handleChange}
+              required
+            />
           </div>
 
           <div>
@@ -63,10 +83,17 @@ export default function ScheduleVisitPage({ listingId }) {
 
           <div>
             <Label htmlFor="message">Message (optional)</Label>
-            <Input id="message" name="message" value={form.message} onChange={handleChange} />
+            <Input
+              id="message"
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+            />
           </div>
 
-          <Button type="submit" className="w-full">Schedule Visit</Button>
+          <Button type="submit" className="w-full">
+            Schedule Visit
+          </Button>
         </form>
       </CardContent>
     </Card>
