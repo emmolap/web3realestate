@@ -9,22 +9,27 @@ export default function FavoritesPage() {
   const favorites = useSelector((state) => state.favorites);
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6">Saved Listings</h2>
+    <div className="mx-auto max-w-4xl p-6">
+      <h2 className="mb-6 text-2xl font-bold">Saved Listings</h2>
       {favorites.length === 0 ? (
-        <p className="text-gray-500">You haven't saved any listings yet.</p>
+        <p className="text-gray-500">You haven't saved any listings yet. ???</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {favorites.map((listing) => (
-            <Card key={listing.id} className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-4 space-y-2">
+            <Card
+              key={listing.id}
+              className="transition-shadow hover:shadow-lg"
+            >
+              <CardContent className="space-y-2 p-4">
                 <Link href={`/property/${listing.id}`} className="block">
                   <img
                     src={URL.createObjectURL(listing.images[0])}
                     alt={listing.title}
-                    className="h-40 w-full object-cover rounded"
+                    className="h-40 w-full rounded object-cover"
                   />
-                  <h3 className="text-lg font-semibold mt-2">{listing.title}</h3>
+                  <h3 className="mt-2 text-lg font-semibold">
+                    {listing.title}
+                  </h3>
                   <p className="text-sm text-gray-500">{listing.address}</p>
                   <p className="text-primary font-bold">${listing.price}</p>
                 </Link>
