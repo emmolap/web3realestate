@@ -24,7 +24,7 @@ export default function ContactPage() {
     return (
       <div className="max-w-lg mx-auto my-10 text-center">
         <h2 className="text-2xl font-bold">Thank you!</h2>
-        <p className="text-gray-600 mt-2">Your message has been received. We will get back to you shortly.</p>
+        <p className="text-gray-600 mt-2">Your message has been received. We will get back to you as soon as possible.</p>
       </div>
     );
   }
