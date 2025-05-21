@@ -120,7 +120,7 @@ export default function EditListingForm() {
       </div>
 
       <Button type="submit" className="w-full">
-        Update Listing
+        Update Listing...
       </Button>
     </form>
   );
