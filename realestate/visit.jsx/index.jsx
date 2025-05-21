@@ -78,7 +78,7 @@ export default function ScheduleVisitForm() {
               />
             </div>
             <div>
-              <Label htmlFor="time">Preferred Time</Label>
+              <Label htmlFor="time">Preferred Time/Day</Label>
               <Input
                 id="time"
                 name="time"
