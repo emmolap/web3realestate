@@ -19,7 +19,8 @@ const blogPosts = [
   {
     id: "3",
     title: "Navigating the Real Estate Market in 2025",
-    summary: "Trends, tips, and data on where the market is headed this year...",
+    summary:
+      "Trends, tips, and data on where the market is headed this year.....",
     date: "2025-05-14",
     author: "Market Watch",
   },
@@ -27,15 +28,19 @@ const blogPosts = [
 
 export default function BlogPage() {
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-center mb-10">Latest Blog Posts</h1>
-      <div className="grid md:grid-cols-2 gap-6">
+    <div className="mx-auto max-w-5xl px-4 py-12">
+      <h1 className="mb-10 text-center text-3xl font-bold">
+        Latest Blog Posts
+      </h1>
+      <div className="grid gap-6 md:grid-cols-2">
         {blogPosts.map((post) => (
           <Link key={post.id} href={`/blog/${post.id}`} className="block">
-            <Card className="hover:shadow-lg transition-shadow duration-200">
+            <Card className="transition-shadow duration-200 hover:shadow-lg">
               <CardContent className="p-6">
-                <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-                <p className="text-gray-500 text-sm mb-1">{post.date} • {post.author}</p>
+                <h2 className="mb-2 text-xl font-semibold">{post.title}</h2>
+                <p className="mb-1 text-sm text-gray-500">
+                  {post.date} • {post.author}
+                </p>
                 <p className="text-gray-700">{post.summary}</p>
               </CardContent>
             </Card>
